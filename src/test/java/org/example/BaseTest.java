@@ -5,8 +5,8 @@ import io.appium.java_client.android.AndroidElement;
 import io.appium.java_client.remote.MobileCapabilityType;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 import org.openqa.selenium.remote.DesiredCapabilities;
-import org.testng.annotations.AfterTest;
-import org.testng.annotations.BeforeTest;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -51,7 +51,7 @@ public class BaseTest {
                 properties.get("suffixUrl");
     }
 
-    @BeforeTest
+    @BeforeClass
     public void startServer() throws IOException {
         Properties properties = loadGlobalProperties();
         String port = (String) properties.get("port");
@@ -61,7 +61,7 @@ public class BaseTest {
         }
     }
 
-    @AfterTest
+    @AfterClass
     public void stopServer() {
         service.stop();
     }

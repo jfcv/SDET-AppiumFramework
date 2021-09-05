@@ -4,6 +4,7 @@
     <test name="Test">
         <classes>
             <class name="org.example.GeneralStoreTestCase4"/>
+            <class name="org.example.ApiDemosTest"/>
         </classes>
     </test>
 </suite>
