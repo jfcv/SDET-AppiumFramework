@@ -8,12 +8,11 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 
-public class Base {
+public class BaseTest {
 
     public static AndroidDriver<AndroidElement> capabilities(String application) throws IOException {
 
@@ -25,11 +24,12 @@ public class Base {
         File file = new File(dir, (String) properties.get(application));
 
         DesiredCapabilities caps = new DesiredCapabilities();
+        caps.setCapability(MobileCapabilityType.PLATFORM_NAME, (String) properties.get("platformName"));
         caps.setCapability(MobileCapabilityType.DEVICE_NAME, (String) properties.get("device"));
-        caps.setCapability(MobileCapabilityType.AUTOMATION_NAME,"uiautomator2");
+        caps.setCapability(MobileCapabilityType.AUTOMATION_NAME,(String) properties.get("automationName"));
         caps.setCapability(MobileCapabilityType.APP, file.getAbsolutePath());
 
-        AndroidDriver<AndroidElement> driver = new AndroidDriver<>(new URL("http://127.0.0.1:4723/wd/hub"), caps);
+        AndroidDriver<AndroidElement> driver = new AndroidDriver<>(new URL((String) properties.get("serverUrl")), caps);
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
         return driver;
     }
