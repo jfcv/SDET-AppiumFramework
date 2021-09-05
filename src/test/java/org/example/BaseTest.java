@@ -11,7 +11,6 @@ import org.testng.annotations.BeforeClass;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.net.ServerSocket;
 import java.net.URL;
 import java.util.Properties;
 import java.util.concurrent.TimeUnit;
@@ -54,12 +53,8 @@ public class BaseTest {
     @BeforeClass
     public void startServer() throws IOException, InterruptedException {
         killAllNodes();
-        Properties properties = loadGlobalProperties();
-        String port = (String) properties.get("port");
-        if(!isServerRunning(Integer.valueOf(port))) {
-            service = AppiumDriverLocalService.buildDefaultService();
-            service.start();
-        }
+        service = AppiumDriverLocalService.buildDefaultService();
+        service.start();
     }
 
     @AfterClass
@@ -67,21 +62,9 @@ public class BaseTest {
         service.stop();
     }
 
-    public boolean isServerRunning(int port) {
-        boolean serverRunning = false;
-        ServerSocket socket;
-        try {
-            socket = new ServerSocket(port);
-            socket.close();
-        } catch (IOException e) {
-            serverRunning = true;
-        }
-        return serverRunning;
-    }
-
     private void killAllNodes() throws IOException, InterruptedException {
         Runtime.getRuntime().exec("killall node");
-        waitInSeconds(3);
+        waitInSeconds(1);
     }
 
     public void waitInSeconds(int seconds) throws InterruptedException {
