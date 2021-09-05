@@ -37,7 +37,7 @@ public class CartPage extends Page {
     }
 
     public double getTotalAmount() {
-        String totalPrice = totalAmountLbl.getText();
-        return Double.parseDouble(totalPrice.substring(1));
+        String totalAmount = totalAmountLbl.getText();
+        return Double.parseDouble(totalAmount.substring(1));
     }
 }

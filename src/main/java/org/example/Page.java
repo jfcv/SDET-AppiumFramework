@@ -10,7 +10,7 @@ public class Page {
     /*
      * Just for Android
      */
-    public void scrollToTextAtDropdowns(String text) {
+    public void scrollToText(String text) {
         String locator = "new UiScrollable(new UiSelector()).scrollIntoView(text(\"__TEXT__\"))".replace("__TEXT__", text);
         driver.findElementByAndroidUIAutomator(locator);
     }
