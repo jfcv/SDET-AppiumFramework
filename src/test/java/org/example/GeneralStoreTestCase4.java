@@ -28,7 +28,7 @@ public class GeneralStoreTestCase4 extends BaseTest {
         ProductsPage productsPage = landingPage.clickLetsShopBtn();
         productsPage.addProductsToCart();
         productsPage.clickCartBtn();
-        productsPage.waitInSeconds(4);
+        waitInSeconds(4);
 
         CartPage cartPage = productsPage.renderCartPage();
         double priceSum = cartPage.calculatePriceSum();

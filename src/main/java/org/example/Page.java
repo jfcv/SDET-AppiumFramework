@@ -15,9 +15,4 @@ public class Page {
         driver.findElementByAndroidUIAutomator(locator);
     }
 
-    public void waitInSeconds(int seconds) throws InterruptedException {
-        int MILISECS_IN_A_SEC = 1000;
-        Thread.sleep(seconds * MILISECS_IN_A_SEC);
-    }
-
 }

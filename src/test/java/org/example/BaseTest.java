@@ -52,7 +52,8 @@ public class BaseTest {
     }
 
     @BeforeClass
-    public void startServer() throws IOException {
+    public void startServer() throws IOException, InterruptedException {
+        killAllNodes();
         Properties properties = loadGlobalProperties();
         String port = (String) properties.get("port");
         if(!isServerRunning(Integer.valueOf(port))) {
@@ -76,6 +77,16 @@ public class BaseTest {
             serverRunning = true;
         }
         return serverRunning;
+    }
+
+    private void killAllNodes() throws IOException, InterruptedException {
+        Runtime.getRuntime().exec("killall node");
+        waitInSeconds(3);
+    }
+
+    public void waitInSeconds(int seconds) throws InterruptedException {
+        int MILISECS_IN_A_SEC = 1000;
+        Thread.sleep(seconds * MILISECS_IN_A_SEC);
     }
 
 }
