@@ -4,6 +4,9 @@ import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.AndroidElement;
 import io.appium.java_client.remote.MobileCapabilityType;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
+import org.apache.commons.io.FileUtils;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -17,7 +20,20 @@ import java.util.concurrent.TimeUnit;
 
 public class BaseTest {
 
+    private static AndroidDriver<AndroidElement> driver;
     private static AppiumDriverLocalService service;
+
+    @BeforeClass
+    public void startServer() throws IOException, InterruptedException {
+        killAllNodes();
+        service = AppiumDriverLocalService.buildDefaultService();
+        service.start();
+    }
+
+    @AfterClass
+    public void stopServer() {
+        service.stop();
+    }
 
     public static AndroidDriver<AndroidElement> capabilities(String application) throws IOException {
 
@@ -32,13 +48,13 @@ public class BaseTest {
         caps.setCapability(MobileCapabilityType.AUTOMATION_NAME,(String) properties.get("automationName"));
         caps.setCapability(MobileCapabilityType.APP, file.getAbsolutePath());
 
-        AndroidDriver<AndroidElement> driver = new AndroidDriver<>(new URL(getUrl(properties)), caps);
+        driver = new AndroidDriver<>(new URL(getUrl(properties)), caps);
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
         return driver;
     }
 
     private static Properties loadGlobalProperties() throws IOException {
-        FileInputStream globalFile = new FileInputStream("src/main/java/org/example/global.properties");
+        FileInputStream globalFile = new FileInputStream("src/main/resources/global.properties");
         Properties properties = new Properties();
         properties.load(globalFile);
         return properties;
@@ -50,18 +66,6 @@ public class BaseTest {
                 properties.get("suffixUrl");
     }
 
-    @BeforeClass
-    public void startServer() throws IOException, InterruptedException {
-        killAllNodes();
-        service = AppiumDriverLocalService.buildDefaultService();
-        service.start();
-    }
-
-    @AfterClass
-    public void stopServer() {
-        service.stop();
-    }
-
     private void killAllNodes() throws IOException, InterruptedException {
         Runtime.getRuntime().exec("killall node");
         waitInSeconds(1);
@@ -70,6 +74,11 @@ public class BaseTest {
     public void waitInSeconds(int seconds) throws InterruptedException {
         int MILISECS_IN_A_SEC = 1000;
         Thread.sleep(seconds * MILISECS_IN_A_SEC);
+    }
+
+    public static void getScreenShot(String name) throws IOException {
+        File screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
+        FileUtils.copyFile(screenshot, new File("src/test/screenshots/"+ name +".png"));
     }
 
 }
