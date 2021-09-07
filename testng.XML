@@ -6,10 +6,18 @@
         <listener class-name="org.example.Listeners"/>
         <listener class-name="org.example.ExtentReporterNG"/>
     </listeners>
-    
-    <test name="Test">
+
+    <!--
+    <test name="Regression">
         <classes>
             <class name="org.example.GeneralStoreTestCase4"/>
+            <class name="org.example.ApiDemosTest"/>
+        </classes>
+    </test>
+    -->
+
+    <test name="Smoke">
+        <classes>
             <class name="org.example.ApiDemosTest"/>
         </classes>
     </test>
