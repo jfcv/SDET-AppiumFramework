@@ -4,6 +4,7 @@
     
     <listeners>
         <listener class-name="org.example.Listeners"/>
+        <listener class-name="org.example.ExtentReporterNG"/>
     </listeners>
     
     <test name="Test">
